@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Version B: The Chaos Killer ⚡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: #00d4ff;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #111;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #333;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .screen.inactive {
+            transform: translateX(-100%);
+        }
+
+        .screen.next {
+            transform: translateX(100%);
+        }
+
+        /* Progress dots */
+        .progress-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: #00d4ff;
+        }
+
+        /* Screen 1 - Launch */
+        .screen-1 {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        .ai-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+            position: relative;
+        }
+
+        .ai-icon::before {
+            content: '🤖';
+            font-size: 60px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
+        }
+
+        .launch-text {
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Screen 2 - Damage Report */
+        .screen-2 {
+            background: #111;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .damage-counter {
+            font-size: 120px;
+            font-weight: 900;
+            color: #ff4757;
+            margin-bottom: 10px;
+            animation: stressIndicator 1.5s infinite;
+        }
+
+        .damage-label {
+            font-size: 24px;
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .conflicts {
+            font-size: 20px;
+            color: #ff6b7a;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .warning-icon {
+            color: #ff4757;
+            animation: stressIndicator 1.5s infinite;
+        }
+
+        @keyframes stressIndicator {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .fix-button {
+            background: #00d4ff;
+            color: #111;
+            font-size: 24px;
+            font-weight: 900;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 16px;
+            width: 80%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fix-button:hover {
+            background: #00b8e6;
+            transform: scale(1.05);
+        }
+
+        /* Screen 3 - AI Working */
+        .screen-3 {
+            background: #111;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid rgba(0, 212, 255, 0.4);
+            border-radius: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            opacity: 0;
+            animation: bubblePop 3.2s ease-in-out;
+        }
+
+        @keyframes bubblePop {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            25% { opacity: 1; transform: scale(1) translateY(0); }
+            75% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0.8) translateY(-20px); }
+        }
+
+        .counter-corner {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 48px;
+            font-weight: 900;
+            color: #00d4ff;
+        }
+
+        /* Screen 4 - Results */
+        .screen-4 {
+            background: #111;
+        }
+
+        .split-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .split-top {
+            flex: 1;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+        }
+
+        .split-bottom {
+            flex: 1;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            position: relative;
+        }
+
+        .result-text {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .checkmark {
+            font-size: 60px;
+            margin-left: 20px;
+            animation: checkmarkPop 0.6s ease-out 0.5s both;
+        }
+
+        @keyframes checkmarkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .pulsing-eight {
+            animation: energyPulse 1s infinite;
+        }
+
+        @keyframes energyPulse {
+            0%, 100% { transform: scale(1); color: #111; }
+            50% { transform: scale(1.1); color: #fff; }
+        }
+
+        .see-emails-btn {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(17, 17, 17, 0.9);
+            color: #00d4ff;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 15px 30px;
+            border: 2px solid #00d4ff;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        /* Screen 5 - Kill Shot */
+        .screen-5 {
+            background: #111;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inbox-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .inbox-counter {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .email-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .email-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .email-sender {
+            font-weight: 700;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .email-summary {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .response-pill {
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            color: #111;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .response-pill:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .response-pill.highlighted {
+            animation: pillGlow 1.5s infinite;
+        }
+
+        @keyframes pillGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
+        }
+
+        .paper-airplane {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .airplane-fly {
+            animation: flyAway 1s ease-out forwards;
+        }
+
+        @keyframes flyAway {
+            0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+            100% { opacity: 0; transform: translate(300px, -200px) rotate(45deg); }
+        }
+
+        .bottom-cta {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+
+        .bottom-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            color: #111;
+            font-size: 20px;
+            font-weight: 900;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Version B: The Chaos Killer ⚡</h1>
+        <p>347 → 8 → 0. No thinking required.</p>
+    </div>
+
+    <div class="phone-frame">
+        <!-- Screen 1: Launch -->
+        <div class="screen screen-1" data-screen="1">
+            <div class="ai-icon"></div>
+            <div class="launch-text">Ready to fix your day?</div>
+        </div>
+
+        <!-- Screen 2: Damage Report -->
+        <div class="screen screen-2 next" data-screen="2">
+            <div class="damage-counter" id="damageCounter">0</div>
+            <div class="damage-label">unread emails</div>
+            <div class="conflicts">
+                <span class="warning-icon">⚠️</span>
+                <span>3 calendar conflicts detected</span>
+            </div>
+            <button class="fix-button">FIX THIS CHAOS →</button>
+        </div>
+
+        <!-- Screen 3: AI Working -->
+        <div class="screen screen-3 next" data-screen="3">
+            <div class="counter-corner" id="workingCounter">347</div>
+        </div>
+
+        <!-- Screen 4: Results -->
+        <div class="screen screen-4 next" data-screen="4">
+            <div class="split-container">
+                <div class="split-top">
+                    <div class="result-text">
+                        3 conflicts → RESOLVED
+                        <span class="checkmark" id="checkmark" style="opacity: 0;">✓</span>
+                    </div>
+                </div>
+                <div class="split-bottom">
+                    <div class="result-text">
+                        347 emails → <span class="pulsing-eight">8</span> need you
+                    </div>
+                    <button class="see-emails-btn">See your 8 emails →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 5: Kill Shot -->
+        <div class="screen screen-5 next" data-screen="5">
+            <div class="inbox-header">
+                <div class="inbox-counter" id="inboxCounter">8 emails remaining</div>
+            </div>
+            <div class="email-list" id="emailList">
+                <div class="email-card">
+                    <div class="email-sender">Sarah Chen</div>
+                    <div class="email-summary">Budget approval needed for Q2 marketing campaign</div>
+                    <button class="response-pill highlighted" data-action="budget">Approve budget — looks good, send?</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-sender">Mike Rodriguez</div>
+                    <div class="email-summary">Weekly team sync moved to Thursday</div>
+                    <button class="response-pill">Acknowledge — got it!</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-sender">Alex Park</div>
+                    <div class="email-summary">Client wants to schedule call for Friday</div>
+                    <button class="response-pill">Book meeting — Friday 2pm?</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-sender">Emma Watson</div>
+                    <div class="email-summary">Quarterly report draft ready for review</div>
+                    <button class="response-pill">Schedule review — tomorrow 10am?</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-sender">David Kim</div>
+                    <div class="email-summary">Security update requires your approval</div>
+                    <button class="response-pill">Approve update — proceed immediately</button>
+                </div>
+            </div>
+            <div class="bottom-cta">
+                <div class="bottom-text">347 → 0. No thinking required.</div>
+                <button class="start-btn">Start crushing it — Free →</button>
+            </div>
+            <div class="paper-airplane" id="airplane">✈️</div>
+        </div>
+
+        <div class="progress-dots">
+            <div class="dot active" data-dot="1"></div>
+            <div class="dot" data-dot="2"></div>
+            <div class="dot" data-dot="3"></div>
+            <div class="dot" data-dot="4"></div>
+            <div class="dot" data-dot="5"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentScreen = 1;
+        let emailCount = 8;
+        
+        function updateProgressDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 <= currentScreen);
+            });
+        }
+
+        function nextScreen() {
+            if (currentScreen >= 5) return;
+            
+            const current = document.querySelector(`[data-screen="${currentScreen}"]`);
+            const next = document.querySelector(`[data-screen="${currentScreen + 1}"]`);
+            
+            current.classList.add('inactive');
+            next.classList.remove('next');
+            
+            currentScreen++;
+            updateProgressDots();
+            
+            // Trigger screen-specific animations
+            if (currentScreen === 2) {
+                animateCounter();
+            } else if (currentScreen === 3) {
+                setTimeout(showBubbles, 300);
+            } else if (currentScreen === 4) {
+                setTimeout(() => {
+                    document.getElementById('checkmark').style.opacity = '1';
+                }, 500);
+            }
+        }
+
+        function animateCounter() {
+            const counter = document.getElementById('damageCounter');
+            let count = 0;
+            const interval = setInterval(() => {
+                count += Math.floor(Math.random() * 30) + 10;
+                if (count >= 347) {
+                    count = 347;
+                    clearInterval(interval);
+                }
+                counter.textContent = count;
+            }, 50);
+        }
+
+        function showBubbles() {
+            const screen = document.querySelector('.screen-3');
+            const bubbles = [
+                { text: "Reading 347 emails...", top: "20%", left: "50%" },
+                { text: "Sorting by urgency...", top: "35%", left: "30%" },
+                { text: "Detecting conflicts...", top: "50%", left: "60%" },
+                { text: "Finding your 8 must-reads...", top: "65%", left: "40%" }
+            ];
+            
+            bubbles.forEach((bubble, index) => {
+                setTimeout(() => {
+                    const bubbleEl = document.createElement('div');
+                    bubbleEl.className = 'bubble';
+                    bubbleEl.textContent = bubble.text;
+                    bubbleEl.style.top = bubble.top;
+                    bubbleEl.style.left = bubble.left;
+                    bubbleEl.style.transform = 'translate(-50%, -50%)';
+                    screen.appendChild(bubbleEl);
+                    
+                    setTimeout(() => {
+                        bubbleEl.remove();
+                    }, 3200);
+                }, index * 800);
+            });
+            
+            // Counter countdown
+            const counter = document.getElementById('workingCounter');
+            let count = 347;
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    count -= Math.floor(Math.random() * 20) + 15;
+                    if (count <= 8) {
+                        count = 8;
+                        counter.textContent = count;
+                        clearInterval(interval);
+                        // Auto advance after bubbles
+                        setTimeout(nextScreen, 1000);
+                        return;
+                    }
+                    counter.textContent = count;
+                }, 200);
+            }, 1000);
+        }
+
+        // Click handlers
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('response-pill')) {
+                if (e.target.dataset.action === 'budget') {
+                    // Paper airplane animation
+                    const airplane = document.getElementById('airplane');
+                    const rect = e.target.getBoundingClientRect();
+                    const containerRect = document.querySelector('.phone-frame').getBoundingClientRect();
+                    
+                    airplane.style.left = (rect.left - containerRect.left) + 'px';
+                    airplane.style.top = (rect.top - containerRect.top) + 'px';
+                    airplane.classList.add('airplane-fly');
+                    
+                    setTimeout(() => {
+                        airplane.classList.remove('airplane-fly');
+                        emailCount--;
+                        document.getElementById('inboxCounter').textContent = `${emailCount} emails remaining`;
+                        e.target.style.opacity = '0.5';
+                        e.target.textContent = 'Sent ✓';
+                        e.target.style.pointerEvents = 'none';
+                    }, 1000);
+                }
+                return;
+            }
+            
+            if (e.target.closest('.screen') && currentScreen < 5) {
+                nextScreen();
+            }
+        });
+
+        // Initialize
+        updateProgressDots();
+    </script>
+</body>
+</html>
